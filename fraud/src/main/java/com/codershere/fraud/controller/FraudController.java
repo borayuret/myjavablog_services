@@ -1,5 +1,6 @@
 package com.codershere.fraud.controller;
 
+import com.codershere.clients.fraud.dto.FraudDetectionResult;
 import com.codershere.fraud.service.FraudService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +18,9 @@ public class FraudController {
     private FraudService fraudService;
 
     @GetMapping("{custId}")
-    public boolean checkFraudCustomer(@PathVariable long custId)
+    public FraudDetectionResult checkFraudCustomer(@PathVariable long custId)
     {
-        return true;
+        return fraudService.checkFraudCustomer(custId);
     }
 
 }

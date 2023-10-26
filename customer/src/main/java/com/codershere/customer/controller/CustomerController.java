@@ -20,6 +20,7 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void register(@RequestBody CustomerRequestDTO customerDTO)

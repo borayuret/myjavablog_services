@@ -1,11 +1,12 @@
 package com.codershere.customer.service;
 
+import com.codershere.clients.fraud.FraudClient;
+import com.codershere.clients.fraud.dto.FraudDetectionResult;
 import com.codershere.customer.dto.CustomerRequestDTO;
 import com.codershere.customer.dto.CustomerResponseDTO;
 import com.codershere.customer.entity.Customer;
 import com.codershere.customer.mapper.CustomerMapper;
 import com.codershere.customer.repository.CustomerRepository;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,9 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerMapper customerMapper;
 
+    @Autowired
+    private FraudClient fraudClient;
+
     @Override
     public void registerCustomer(CustomerRequestDTO customerDTO) {
 
@@ -33,6 +37,9 @@ public class CustomerServiceImpl implements CustomerService {
 
         Customer customer =  customerMapper.customerRequestDTOToCustomer(customerDTO);
         customerRepository.save(customer);
+
+        FraudDetectionResult fraudDetectionResult = fraudClient.checkFraudCustomer(customer.getId());
+
         log.info("Customer is saved with no {}", customer.getId());
 
     }
